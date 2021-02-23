@@ -66,8 +66,68 @@
                 return;
             }
             pattern[y][x] = color;
+
+            if (checkWin()) {
+                alert(color == 1 ? "⭕️ wins~" : "❌ wins~")
+            }
+            
             color = 2/color;
             show();
+        }
+
+        /**
+         * 判断输赢
+         * */ 
+        function checkWin() {
+            for (let i=0; i<3; i++) {
+                let win = true;
+                for (let j=0; j<3; j++) {
+                    if (pattern[i][j] != color) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            for (let i=0; i<3; i++) {
+                let win = true;
+                for (let j=0; j<3; j++) {
+                    if (pattern[j][i] != color) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            {
+                let win = true;
+                for (let i=0; i<3; i++) {
+                    if (pattern[i][i] != color) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            {
+                let win = true;
+                for (let i=0; i<3; i++) {
+                    if (pattern[i][2-i] != color) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            return false;
         }
 
         show()
