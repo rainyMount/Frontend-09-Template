@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tictactoe</title>
+
+    <style>
+        .cell {
+            box-sizing: border-box;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            border: 1px solid #000;
+            background: #21772f;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div id="tictactoe"></div>
+
+    <script>
+        let pattern = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ];
+
+        /**
+         * 绘制棋盘
+         * */ 
+        function show() {
+            let board = document.getElementById("tictactoe");
+            board.innerHTML = "";
+
+            for (let i=0; i<3; i++) {
+                for (let j=0; j<3; j++) {
+                    let cell = document.createElement("div");
+                    cell.classList.add("cell");
+                    cell.innerText = 
+                        pattern[i][j] == 1 ? "⭕️" : 
+                        pattern[i][j] == 2 ? "❌" : "";
+
+                    cell.addEventListener('click', () => move(j, i));
+                    board.appendChild(cell);
+                }
+                board.appendChild(document.createElement("br"));
+            }
+        }
+
+        /**
+         * 交替落子
+         * @param x 横坐标--一维下标
+         * @param y 纵坐标--二维下标
+         * */ 
+        let color = 1;
+        function move(x, y) {
+            let targetCell = pattern[y][x];
+            if (targetCell>0) {
+                alert("请勿重复落子！");
+                return;
+            }
+            pattern[y][x] = color;
+            color = 2/color;
+            show();
+        }
+
+        show()
+    </script>
+</body>
+</html>
