@@ -67,13 +67,19 @@
             }
             pattern[y][x] = color;
 
-            if (checkWin()) {
+            let isGameOver = checkWin();
+            if (isGameOver) {
                 alert(color == 1 ? "⭕️ wins~" : "❌ wins~");
-                playAgain();
             }
             
             color = 2/color;
             show();
+
+            setTimeout(() => {
+                if (isGameOver) {
+                    playAgain();
+                }
+            }, 500)
         }
 
         /**
