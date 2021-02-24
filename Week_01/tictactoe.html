@@ -68,7 +68,8 @@
             pattern[y][x] = color;
 
             if (checkWin()) {
-                alert(color == 1 ? "⭕️ wins~" : "❌ wins~")
+                alert(color == 1 ? "⭕️ wins~" : "❌ wins~");
+                playAgain();
             }
             
             color = 2/color;
@@ -128,6 +129,15 @@
             }
 
             return false;
+        }
+
+        function playAgain() {
+            pattern = [
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+            ];
+            show();
         }
 
         show()
