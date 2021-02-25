@@ -60,19 +60,39 @@
         }
 
         /**
-         * 交替落子
+         * 玩家落子
          * @param x 横坐标--一维下标
          * @param y 纵坐标--二维下标
          * */ 
         let color = 1;
         function move(x, y) {
-            let targetCell = pattern[y][x];
+            let targetCell = pattern[y * 3 + x];
             if (targetCell>0) {
                 alert("请勿重复落子！");
                 return;
             }
             pattern[3 * y + x] = color;
 
+            showResult();
+            
+            setTimeout(() => {
+                computerMove()
+            }, 500)
+        }
+
+        /**
+         * 机器落子
+         * */ 
+        function computerMove() {
+            let choice = bestChoice(pattern, color);
+            if (choice.point) {
+                pattern[choice.point[1] * 3 + choice.point[0]] = color;
+            }
+
+            showResult();
+        }
+
+        function showResult() {
             let isGameOver = checkWin(pattern, color);
             if (isGameOver) {
                 alert(color == 1 ? "⭕️ wins~" : "❌ wins~");
@@ -86,16 +106,13 @@
                 console.log(color == 1 ? "⭕️ will win~" : "❌ will wins");
             }
 
-            // 自动开启下一局
-            setTimeout(() => {
-                if (isGameOver) {
-                    playAgain();
-                }
-            }, 500)
+            if (isGameOver) {
+                playAgain();
+            }
         }
 
         /**
-         * 判断输赢
+         * 判断是否有输赢
          * */ 
         function checkWin(board, color) {
             for (let i=0; i<3; i++) {
@@ -186,9 +203,8 @@
 
             outer:for (let i=0; i<3; i++) {
                 for (let j=0; j<3; j++) {
-                    if (board[i * 3 + j]) {
-                        continue;
-                    }
+                    // console.log(board[i * 3 + j])
+                    if (board[i * 3 + j]) continue;
 
                     let boardClone = clone(board);
                     boardClone[i * 3 + j] = color;
@@ -213,22 +229,26 @@
             }
         }
 
+        /**
+         * 自动开启下一局
+         * */ 
         function playAgain() {
-            // pattern = [
-            //     [0, 0, 0],
-            //     [0, 0, 0],
-            //     [0, 0, 0]
-            // ];
-            pattern = [
-                0, 0, 0,
-                0, 0, 0,
-                0, 0, 0
-            ]
-            show();
+            setTimeout(() => {
+                // pattern = [
+                //     [0, 0, 0],
+                //     [0, 0, 0],
+                //     [0, 0, 0]
+                // ];
+                pattern = [
+                    0, 0, 0,
+                    0, 0, 0,
+                    0, 0, 0
+                ]
+                show();
+            }, 1000)
         }
 
         show();
-        console.log(bestChoice(pattern, color))
     </script>
 </body>
 </html>
