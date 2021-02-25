@@ -30,6 +30,11 @@
             [0, 0, 0],
             [0, 0, 0]
         ];
+        // let pattern = [
+        //     0, 0, 0,
+        //     0, 0, 0,
+        //     0, 0, 0
+        // ];
 
         /**
          * 绘制棋盘
@@ -67,14 +72,20 @@
             }
             pattern[y][x] = color;
 
-            let isGameOver = checkWin();
+            let isGameOver = checkWin(pattern, color);
             if (isGameOver) {
                 alert(color == 1 ? "⭕️ wins~" : "❌ wins~");
             }
             
             color = 2/color;
+            console.log(bestChoice(pattern, color))
             show();
 
+            if (willWin(pattern, color)) {
+                console.log(color == 1 ? "⭕️ will win~" : "❌ will wins");
+            }
+
+            // 自动开启下一局
             setTimeout(() => {
                 if (isGameOver) {
                     playAgain();
@@ -85,68 +96,133 @@
         /**
          * 判断输赢
          * */ 
-        function checkWin() {
+        function checkWin(board, color) {
             for (let i=0; i<3; i++) {
                 let win = true;
                 for (let j=0; j<3; j++) {
-                    if (pattern[i][j] != color) {
+                    if (board[i][j] != color) {
                         win = false;
                     }
                 }
                 if (win) {
-                    return true
+                    return true;
                 }
             }
 
             for (let i=0; i<3; i++) {
                 let win = true;
                 for (let j=0; j<3; j++) {
-                    if (pattern[j][i] != color) {
+                    if (board[j][i] != color) {
                         win = false;
                     }
                 }
                 if (win) {
-                    return true
+                    return true;
                 }
             }
 
             {
                 let win = true;
                 for (let i=0; i<3; i++) {
-                    if (pattern[i][i] != color) {
+                    if (board[i][i] != color) {
                         win = false;
                     }
                 }
                 if (win) {
-                    return true
+                    return true;
                 }
             }
 
             {
                 let win = true;
                 for (let i=0; i<3; i++) {
-                    if (pattern[i][2-i] != color) {
+                    if (board[i][2-i] != color) {
                         win = false;
                     }
                 }
                 if (win) {
-                    return true
+                    return true;
                 }
             }
 
             return false;
         }
 
-        function playAgain() {
-            pattern = [
-                [0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0]
-            ];
-            show();
+        function willWin(board, color) {
+            for (let i=0; i<3; i++) {
+                for (let j=0; j<3; j++) {
+                    if (board[i][j]) {
+                        continue;
+                    }
+
+                    let boardClone = clone(board);
+                    boardClone[i][j] = color;
+                    if (checkWin(boardClone, color)) {
+                        // return true;
+                        return [j, i];
+                    }
+                }
+            }
+            // return false;
+            return null;
         }
 
-        show()
+        function clone(board) {
+            return JSON.parse(JSON.stringify(board))
+        }
+
+        function bestChoice(board, color) {
+            let p;
+            if (p = willWin(board, color)) {
+                return {
+                    point: p,
+                    result: 1
+                }
+            }
+
+            let result = -2, 
+                point = null;
+
+            outer:for (let i=0; i<3; i++) {
+                for (let j=0; j<3; j++) {
+                    if (board[i][j]) {
+                        continue;
+                    }
+
+                    let boardClone = clone(board);
+                    boardClone[i][j] = color;
+
+                    let r = bestChoice(boardClone, 2/color).result;
+
+                    if (- r > result) {
+                        // 对方的落子胜算更大，则占领对方的落子位置
+                        result = - r;
+                        point = [j, i]
+                    }
+
+                    if (result == 1) {
+                        break outer;
+                    }
+                }
+            }
+            
+            return {
+                point,
+                result: point ? result : 0
+            }
+        }
+
+        // function playAgain() {
+        //     pattern = [
+        //         [0, 0, 0],
+        //         [0, 0, 0],
+        //         [0, 0, 0]
+        //     ];
+        //     show();
+        // }
+
+        show();
+        console.log(bestChoice(pattern, color))
     </script>
 </body>
 </html>
