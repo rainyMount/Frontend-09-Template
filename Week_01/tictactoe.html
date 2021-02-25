@@ -25,16 +25,17 @@
     <div id="tictactoe"></div>
 
     <script>
-        let pattern = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]
-        ];
         // let pattern = [
-        //     0, 0, 0,
-        //     0, 0, 0,
-        //     0, 0, 0
+        //     [0, 0, 0],
+        //     [0, 0, 0],
+        //     [0, 0, 0]
         // ];
+
+        let pattern = [
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0
+        ];
 
         /**
          * 绘制棋盘
@@ -48,8 +49,8 @@
                     let cell = document.createElement("div");
                     cell.classList.add("cell");
                     cell.innerText = 
-                        pattern[i][j] == 1 ? "⭕️" : 
-                        pattern[i][j] == 2 ? "❌" : "";
+                        pattern[i * 3 + j] == 1 ? "⭕️" : 
+                        pattern[i * 3 + j] == 2 ? "❌" : "";
 
                     cell.addEventListener('click', () => move(j, i));
                     board.appendChild(cell);
@@ -70,7 +71,7 @@
                 alert("请勿重复落子！");
                 return;
             }
-            pattern[y][x] = color;
+            pattern[3 * y + x] = color;
 
             let isGameOver = checkWin(pattern, color);
             if (isGameOver) {
@@ -100,7 +101,7 @@
             for (let i=0; i<3; i++) {
                 let win = true;
                 for (let j=0; j<3; j++) {
-                    if (board[i][j] != color) {
+                    if (board[i * 3 + j] != color) {
                         win = false;
                     }
                 }
@@ -112,7 +113,7 @@
             for (let i=0; i<3; i++) {
                 let win = true;
                 for (let j=0; j<3; j++) {
-                    if (board[j][i] != color) {
+                    if (board[j * 3 + i] != color) {
                         win = false;
                     }
                 }
@@ -124,7 +125,7 @@
             {
                 let win = true;
                 for (let i=0; i<3; i++) {
-                    if (board[i][i] != color) {
+                    if (board[4 * i] != color) {
                         win = false;
                     }
                 }
@@ -136,7 +137,7 @@
             {
                 let win = true;
                 for (let i=0; i<3; i++) {
-                    if (board[i][2-i] != color) {
+                    if (board[i * 2 + 2] != color) {
                         win = false;
                     }
                 }
@@ -151,12 +152,12 @@
         function willWin(board, color) {
             for (let i=0; i<3; i++) {
                 for (let j=0; j<3; j++) {
-                    if (board[i][j]) {
+                    if (board[i * 3 + j]) {
                         continue;
                     }
 
                     let boardClone = clone(board);
-                    boardClone[i][j] = color;
+                    boardClone[i * 3 + j] = color;
                     if (checkWin(boardClone, color)) {
                         // return true;
                         return [j, i];
@@ -185,12 +186,12 @@
 
             outer:for (let i=0; i<3; i++) {
                 for (let j=0; j<3; j++) {
-                    if (board[i][j]) {
+                    if (board[i * 3 + j]) {
                         continue;
                     }
 
                     let boardClone = clone(board);
-                    boardClone[i][j] = color;
+                    boardClone[i * 3 + j] = color;
 
                     let r = bestChoice(boardClone, 2/color).result;
 
@@ -222,7 +223,7 @@
                 0, 0, 0,
                 0, 0, 0,
                 0, 0, 0
-            ];
+            ]
             show();
         }
 
