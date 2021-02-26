@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trafficLight</title>
+    <style>
+        .light {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            border-radius: 50%;
+            background: rgb(212, 212, 212);
+        }
+        .red.on {
+            background: #ff0000;
+        }
+        .yellow.on {
+            background: #ffff00;
+        }
+        .green.on {
+            background: #008000;
+        }
+    </style>
+</head>
+<body>
+
+    <h3>这是一个路口，绿灯10秒，黄灯2秒，红灯5秒</h3>
+    <div class="light green"></div>
+    <div class="light yellow"></div>
+    <div class="light red"></div>
+    
+    <script>
+        let lightArr = [
+            {
+                color: 'green',
+                duration: 10
+            }, {
+                color: 'yellow',
+                duration: 2
+            }, {
+                color: 'red',
+                duration: 5
+            }
+        ]
+        function trafficLight(color, duration) {
+            return new Promise(function(resolve, reject) {
+                let lightArr = document.getElementsByClassName('light'),
+                    targetLight = document.getElementsByClassName(color)[0];
+
+                for (let i=0, len=lightArr.length; i<len; i++) {
+                    lightArr[i].classList.remove('on')
+                }
+                targetLight.classList.add('on')
+                setTimeout(resolve, duration*1000);
+            })
+        }
+
+        async function lightChange() {
+            while(1) {
+                for (let i=0, len = lightArr.length; i<len; i++) {
+                    await trafficLight(lightArr[i].color, lightArr[i].duration)
+                }
+            }
+        }
+
+        lightChange();
+    </script>
+</body>
+</html>
