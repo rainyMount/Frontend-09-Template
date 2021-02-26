@@ -9,6 +9,6 @@
 
 ### 异步编程——红绿灯 
 1. callback方式（setTimeout层层回调，会造成回调地域的弊端）代码结构复杂，不易维护 
-2. promise .then链式调用 
+2. promise .then链式调用  
 3. async/await + while(true)  （早年使用generator + yeild模拟，现在基本弃用这种模拟方式）
 4. Generator + async 实现迭代器（了解）
