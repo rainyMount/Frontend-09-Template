@@ -7,3 +7,6 @@
 2. shift(),unshift(),push(),pop() 四种方法；
   - shift() + pop()、unshift() + push() 可以表示队列 
   - shift() + unshift()、pop() + push() 可以表示栈（但是考虑JS数组的设计模式，一般不用shift() + unshift()表示栈）
+
+3. 只要while()中的条件为true，则可以一直循环下去
+
