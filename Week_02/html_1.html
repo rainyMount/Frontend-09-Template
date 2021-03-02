@@ -19,13 +19,14 @@
             border-right: 1px solid #fff;
             border-bottom: 1px solid #fff;
             vertical-align: middle;
+            float: left;
         }
     </style>
 </head>
 <body>
 
     <div id="map"></div>
-    <button onclick="ocalStorage.setItem('map', JSON.stringify(map))">保存</button>
+    <button onclick="localStorage.setItem('map', JSON.stringify(map))">保存</button>
     
     <script>
         let map = localStorage.getItem('map') ? JSON.parse(localStorage.getItem('map')) : Array(10000).fill(0);
