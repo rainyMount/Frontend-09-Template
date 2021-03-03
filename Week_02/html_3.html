@@ -111,7 +111,6 @@
             }
 
             while (queue.length) {
-                // 结构赋值
                 let [x, y] = queue.shift();
 
                 if (x === end[0] && y === end[1]) {
@@ -122,16 +121,16 @@
                         await sleep(10);
                         path.push(map[100 * y + x]);
                         [x, y] = table[100 * y + x];
-                        container.children[100 * y + x].style.backgroundColor = 'blue'
+                        container.children[100 * y + x].style.backgroundColor = 'purple'
                     }
                     return path;
                 }
-
+                // 前后左右
                 await insert(x-1, y, [x, y]);
                 await insert(x+1, y, [x, y]);
                 await insert(x, y-1, [x, y]);
                 await insert(x, y+1, [x, y]);
-                
+                //斜向
                 await insert(x-1, y-1, [x, y]);
                 await insert(x+1, y+1, [x, y]);
                 await insert(x+1, y-1, [x, y]);
