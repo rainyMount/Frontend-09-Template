@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>实现一个地图编辑器</title>
+    <title>寻路</title>
     <style>
         #map {
             width: 600px;
@@ -31,7 +31,7 @@
     
     <script>
         let mapInitArr = Array(10000).fill(0);
-        let map = localStorage.getItem('map') ? JSON.parse(localStorage.getItem('map')) : mapInitArr;
+        let map = localStorage.getItem('map') ? JSON.parse(localStorage.getItem('map')) : [...mapInitArr];
 
         let container = document.getElementById('map');
         /**
@@ -70,7 +70,7 @@
          * */ 
         function resetMap() {
             container.innerHTML = "";
-            map = mapInitArr;
+            map = [...mapInitArr];
             localStorage.setItem('map', JSON.stringify(mapInitArr))
             drawMap();
         }
@@ -86,38 +86,58 @@
         // 阻止右键默认事件
         document.addEventListener('contextmenu', e => e.preventDefault());
 
+        function sleep(time) {
+            return new Promise((resolve) =>{
+                setTimeout(resolve, time)
+            }) 
+        }
 
-        function path(map, start, end) {
-            var queue = [start];
+        async function findPath(map, start, end) {
+            let queue = [start];
+            let table = Object.create(map);
 
-            function insert(x, y) {
+            async function insert(x, y, pre) {
                 if (x<0 || x>=100 || y<0 || y>=100) 
                     return;
-                if (map[100 * y + x]) 
+                // if (map[100 * y + x]) 
+                if (table[100 * y + x]) 
                     return;
 
-                map[100 * y + x] = 2;
-                queue.push([x, y])
+                // await sleep(1);
+                container.children[100 * y + x].style.backgroundColor = 'lightGreen';
+                // map[100 * y + x] = 2;
+                table[100 * y + x] = pre;
+                queue.push([x, y]);
             }
 
             while (queue.length) {
-                // 结构赋值
                 let [x, y] = queue.shift();
 
-                console.log([x, y])
-
                 if (x === end[0] && y === end[1]) {
-                    console.log('找到啦');
-                    return true;
+                    let path = [];
+                    container.children[100 * y + x].style.backgroundColor = 'red';
+                    // 处理路径
+                    while (x != start[0] && y!=start[1]) {
+                        await sleep(10);
+                        path.push(map[100 * y + x]);
+                        [x, y] = table[100 * y + x];
+                        container.children[100 * y + x].style.backgroundColor = 'purple'
+                    }
+                    return path;
                 }
-
-                insert(x-1, y);
-                insert(x+1, y);
-                insert(x, y-1);
-                insert(x, y+1);
+                // 前后左右
+                await insert(x-1, y, [x, y]);
+                await insert(x+1, y, [x, y]);
+                await insert(x, y-1, [x, y]);
+                await insert(x, y+1, [x, y]);
+                //斜向
+                await insert(x-1, y-1, [x, y]);
+                await insert(x+1, y+1, [x, y]);
+                await insert(x+1, y-1, [x, y]);
+                await insert(x-1, y+1, [x, y]);
             }
 
-            return false
+            return null
         }
     </script>
 </body>
