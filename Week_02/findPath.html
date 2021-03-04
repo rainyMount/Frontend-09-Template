@@ -54,7 +54,8 @@
 
                 return min;
             }
-            gave(val) {
+            give(val) {
+                console.log('give val', val)
                 this.data.push(val);
             }
         }
@@ -123,6 +124,7 @@
 
         async function findPath(map, start, end) {
             let queue = [start];
+            // let queue = new Sorted([start], (a, b) => distance(a) - distance(b));
             let table = Object.create(map);
 
             async function insert(x, y, pre) {
@@ -137,10 +139,17 @@
                 // map[100 * y + x] = 2;
                 table[100 * y + x] = pre;
                 queue.push([x, y]);
+                // queue.give([x, y]);
+            }
+
+            function distance(point) {
+                console.log('point', point)
+                return (point[0] - end[0]) ** 2 + (point[1] - end[1]) ** 2
             }
 
             while (queue.length) {
                 let [x, y] = queue.shift();
+                // let [x, y] = queue.take();
 
                 if (x === end[0] && y === end[1]) {
                     let path = [];
