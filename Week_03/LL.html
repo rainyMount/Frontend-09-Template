@@ -59,7 +59,14 @@
         }
 
         function AdditiveExpression(source) {
-             
+            if (source[0].type == "MultiplicativeExpression") {
+                let node = {
+                    type: 'AdditiveExpression',
+                    children: [source[0]]
+                }
+                source[0] = node;
+                return 
+            }
         }
 
         function MultiplicativeExpression(source) {
