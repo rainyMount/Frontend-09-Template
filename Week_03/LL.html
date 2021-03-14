@@ -48,7 +48,7 @@
 
         let source = [];
 
-        for (let token of tokenize("10 * 25 / 2")) {
+        for (let token of tokenize("1 + 2 + 3")) {
             if (token.type !== "Whitespace" && token.type !== "LineTerminator") {
                 source.push(token)
             }
@@ -58,6 +58,7 @@
 
         }
 
+        // 加法
         function AdditiveExpression(source) {
             if (source[0].type == "MultiplicativeExpression") {
                 let node = {
@@ -65,10 +66,46 @@
                     children: [source[0]]
                 }
                 source[0] = node;
-                return 
+                return AdditiveExpression(source);
             }
-        }
 
+            if (source[0].type == "AdditiveExpression" && source[1] && source[1].type == "+") {
+                let node = {
+                    type: 'AdditiveExpression',
+                    operator: "+",
+                    children: []
+                }
+                node.children.push(source.shift());
+                node.children.push(source.shift());
+                MultiplicativeExpression(source);
+                node.children.push(source.shift());
+                source.unshift(node);
+                return AdditiveExpression(source)
+            }
+
+            if (source[0].type == "AdditiveExpression" && source[1] && source[1].type == "-") {
+                let node = {
+                    type: 'AdditiveExpression',
+                    operator: "-",
+                    children: []
+                }
+                node.children.push(source.shift());
+                node.children.push(source.shift());
+                MultiplicativeExpression(source);
+                node.children.push(source.shift());
+                source.unshift(node);
+                return AdditiveExpression(source)
+            }
+
+            if (source[0].type == "AdditiveExpression") {
+                return source[0]
+            }
+
+            MultiplicativeExpression(source);
+            return AdditiveExpression(source);
+        }
+        
+        // 乘法
         function MultiplicativeExpression(source) {
             if (source[0].type == "Number") {
                 let node = {
@@ -109,7 +146,8 @@
             return MultiplicativeExpression(source)
         }
 
-        console.log(MultiplicativeExpression(source))
+        // console.log(MultiplicativeExpression(source))
+        console.log(AdditiveExpression(source))
     </script>
 </body>
 </html>
