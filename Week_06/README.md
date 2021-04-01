@@ -38,3 +38,5 @@
 > 4. 子类型
 > 5. 泛型
 >   * 逆变/协变
+#### Number
+1. 一个符号位 + 11个指数位 + 52个精度位表示的双精度浮点数，一位为1bite，具体可参考：http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html
