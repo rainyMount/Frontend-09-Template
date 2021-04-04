@@ -38,5 +38,36 @@
 > 4. 子类型
 > 5. 泛型
 >   * 逆变/协变
-#### Number
+#### 八、几种常见类型
+##### Number
 > 1. 一个符号位 + 11个指数位 + 52个精度位表示的双精度浮点数，一位为1bite，具体可参考：http://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html
+##### String
+> 1. **utf8:** 默认一个字节表示一个字符； **utf16:** 默认两个字节表示表示一个字符
+> 2. **语法** 
+>       * "abc"
+>       * 'abc'
+>       * \`abc` 语法结构
+##### null、undefined
+> 1. null有变量、空值，null是关键字
+> 2. undefined 未定义这个变量，是一个全局变量，不是关键字，一般采用void 0；来取undefined的值；
+##### Object
+每一个对象都是唯一的，这与对象本身的状态无关；对象不是由状态决定的，状态是由对象决定的；我们会用状态来描述对象，**状态的改变叫做行为（一定要注意，在实际业务中，要弄清楚真正被改变状态的对象是哪一个，并且在此过程中要尽量避免行为太过具体）**；
+> 1. 三大核心要素：state、identifier、behavior
+> 2. 描述对象有分类、归类两种流派
+>       * 归类：class 继承
+>       * 分类：单继承，有一个基类 Object
+> 3. 对象要素：属性（状态+行为）+prototype
+>       * 属性：
+>           + key：string、symbol
+>           + value：
+>               + 数据属性
+>               + 访问器属性
+> 4. API、语法
+>       * {}/./[]/object.defineProperty: 基于语法区创建、访问对象属性，以及改变属性的特征值；
+>       * object.create/object.setPrototyprOf/object.getPrototyprOf: 基于原型的描述对象的方法
+>       * new/class/extends：基于类的方式去描述对象
+>       * new/function/prototype(不建议用)
+> 5. 特殊对象
+>       * Function Object
+>       * Array Object
+>       * Host Object
