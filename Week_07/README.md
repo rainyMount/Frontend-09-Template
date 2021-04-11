@@ -55,3 +55,45 @@
       * a ? b : c
       > 注意有短路原则（一定情况下可以代替if）不是所有表达式的子结构都会被执行
 ### 类型转换
+![avatar](type_transfer.png)
+### 语句
+> * [[type]]: normal/break/continue/return/throw 
+> * [[value]]: 基本类型 
+> * [[target]]: label 
+
+语句主要分为：简单语句、组合语句、声明
+1. 简单语句：
+    * 表达式语句
+    * 空语句
+    * 调试（debug）语句
+    * throw语句
+    * break语句
+    * continue语句
+    * return语句
+2. 组合（复合）语句
+    * BlockStatement
+      * 可以容纳多个语句
+    * IfStatement
+    * SwitchStatement
+    * IterationStatement
+      * `while`、`do while`、`for()`、`for(...in)/for(...of)`
+    * WithStatement
+    * LabelledStatement（给循环结构取名字）
+    * TryStatement
+3. 声明（这里将“对后续语句发生作用的语句”都归类于声明，次归类方式不一定和js标准一致）
+  * 声明方式
+  > 以下五种可以存在变量提升
+  > * Function
+  > * Generaor
+  > * AsyncFunction
+  > * AsyncGeneraor
+  > * Variable
+---------------
+  > 以下几种声明方式没有变量提升
+  > * Class
+  > * Lexical：let、const
+* 预处理
+> 所有的变量声明都有预处理机制，只是有些声明方式不存在变量提升
+* 作用域
+### 宏任务与微任务
+> **宏任务**：针对JS引擎； **微任务**：针对JS内部
